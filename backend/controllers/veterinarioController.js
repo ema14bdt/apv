@@ -1,11 +1,28 @@
 import Veterinario from '../models/Veterinario.js';
-import generarId from '../helpers/generarId.js';
 import generarJWT from '../helpers/generarJWT.js';
+import generarId from '../helpers/generarId.js';
+import emailRegistro from '../helpers/emailRegistro.js';
 
 const registrar = async (req, res) => {
+    const {nombre, email} = req.body;
+    const existeVeterinario = await Veterinario.findOne({email});
+
+    if (existeVeterinario) {
+        return res.status(400).json({
+            message: 'El email ya está registrado',
+        });
+    }
+
     try {
         const veterinario = new Veterinario(req.body);
         await veterinario.save();
+
+        emailRegistro({
+            nombre,
+            email,
+            token: veterinario.token,
+        })
+
         res.status(201).json({
             message: 'Veterinario registrado correctamente',
             data: veterinario,
