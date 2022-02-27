@@ -12,9 +12,9 @@ function App() {
       <Routes>
         <Route path="/" element={<AuthLayout/>} >
           <Route index element={<Login/>} />
-          <Route path="register" element={<Register/>} />
-          <Route path="confirm-account" element={<ConfirmAccount/>} />
-          <Route path="forgot-password" element={<ForgotPassword/>} />
+          <Route path="registro" element={<Register/>} />
+          <Route path="confirmar/:token" element={<ConfirmAccount/>} />
+          <Route path="olvide-password" element={<ForgotPassword/>} />
         </Route>
       </Routes>
     </BrowserRouter>
