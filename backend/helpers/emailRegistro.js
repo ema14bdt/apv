@@ -19,7 +19,7 @@ const emailRegistro = async (datos) => {
         html: `
             <h1>Bienvenido a Veterinaria APV</h1>
             <p>
-                Gracias por registrarte en nuestra veterinaria.
+                Gracias por registrarte en nuestra veterinaria ${nombre}.
                 Para confirmar tu registro, pulsa en el siguiente enlace:
             </p>
             <a href="${process.env.FRONTEND_URL}/confirmar/${token}">
