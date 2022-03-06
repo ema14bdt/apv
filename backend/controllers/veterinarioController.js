@@ -74,6 +74,7 @@ const perfil = async (req, res) => {
     const {veterinario} = req;
 
     res.json({
+        _id: veterinario._id,
         title: 'Perfil de veterinario',
         nombre: veterinario.nombre,
         email: veterinario.email,
