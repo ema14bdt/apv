@@ -63,7 +63,10 @@ const autenticar = async (req, res) => {
         return res.status(403).json({message: 'Usuario no confirmado'});
     } else if (await usuario.comprobarPassword(password)) {
         return res.json({
-            token: generarJWT(usuario._id),
+            _id: usuario._id,
+            nombre: usuario.nombre,
+            email: usuario.email,
+            token: generarJWT(usuario),
         });
     } else {
         return res.status(401).json({message: 'Password incorrecto'});
@@ -74,7 +77,6 @@ const perfil = async (req, res) => {
     const {veterinario} = req;
 
     res.json({
-        _id: veterinario._id,
         title: 'Perfil de veterinario',
         nombre: veterinario.nombre,
         email: veterinario.email,
