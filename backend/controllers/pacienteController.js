@@ -17,10 +17,7 @@ const agregarPaciente = async (req, res) => {
 const obtenerPacientes = async (req, res) => {
     const pacientes = await Paciente.find().where('veterinario').equals(req.veterinario._id);
 
-    res.json({
-        message: `Pacientes de ${req.veterinario.nombre}`,
-        data: pacientes,
-    });
+    res.json(pacientes);
 };
 
 const obtenerPaciente = async (req, res) => {
