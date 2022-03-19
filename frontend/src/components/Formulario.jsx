@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Alerta from './Alerta';
 import usePacientes from '../hooks/usePacientes';
 
@@ -8,11 +8,22 @@ const Formulario = () => {
     const [email, setEmail] = useState('');
     const [fecha, setFecha] = useState('');
     const [sintomas, setSintomas] = useState('');
+    const [id, setId] = useState(null);
 
     const [alerta, setAlerta] = useState({});
 
-    const {pacientes, guardarPaciente} = usePacientes();
-    console.log(pacientes);
+    const {guardarPaciente, paciente} = usePacientes();
+    
+    useEffect(() => {
+        if (paciente?.nombre) {
+            setNombre(paciente.nombre);
+            setPropietario(paciente.propietario);
+            setEmail(paciente.email);
+            setFecha(paciente.fecha);
+            setSintomas(paciente.sintomas);
+            setId(paciente._id);
+        }
+    }, [paciente]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -29,14 +40,25 @@ const Formulario = () => {
             return;
         }
 
-        setAlerta({});
         guardarPaciente({
             nombre,
             propietario,
             email,
             fecha,
-            sintomas
+            sintomas,
+            id
         });
+
+        setAlerta({
+            msg: 'Paciente guardado correctamente',
+        });
+
+        setNombre('');
+        setPropietario('');
+        setEmail('');
+        setFecha('');
+        setSintomas('');
+        setId(null);
     }
 
     const {msg} = alerta;
@@ -116,11 +138,12 @@ const Formulario = () => {
                     <input
                         className='bg-indigo-600 transition-colors hover:bg-indigo-800 uppercase cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
                         type='submit'
-                        value='Guardar'
+                        value={id ? 'Editar Paciente' : 'Agregar Paciente'}
                     />
                     <input
                         className='bg-red-500 transition-colors hover:bg-red-700 uppercase cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                        type='reset'
+                        type='button'
+                        onClick={() => setId(null)}
                         value='Cancelar'
                     />
                 </div>
